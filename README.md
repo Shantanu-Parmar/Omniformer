@@ -105,12 +105,11 @@ Copy
 from omniformer import Omniformer, OmniformerCSVDataset
 from torch.utils.data import DataLoader
 import torch
-
-# Load dataset
+#Load dataset
 dataset = OmniformerCSVDataset("data/labeled.csv")
 loader = DataLoader(dataset, batch_size=32, shuffle=True)
 
-# Initialize model
+#Initialize model
 model = Omniformer(
     input_dim=10,
     context_dim=dataset.context_dim,
@@ -125,7 +124,7 @@ model = Omniformer(
 optimizer = torch.optim.Adam(model.parameters(), lr=1e-4)
 criterion = torch.nn.BCEWithLogitsLoss()
 
-# Training loop
+#Training loop
 for x, ctx, y in loader:
     x, ctx, y = x.to("cuda"), ctx.to("cuda"), y.to("cuda")
     optimizer.zero_grad()
@@ -135,7 +134,7 @@ for x, ctx, y in loader:
     optimizer.step()
 ```
 
-##🔬 Research Highlights
+## 🔬 Research Highlights
 Dynamic per-sample weight generation for self-attention and FFN layers via HyperNets
 
 Gated residual connections to stabilize deep Transformer training
@@ -144,18 +143,18 @@ Chunked streaming supports gigabyte-scale CSVs without full in-memory loading
 
 OOM-adaptive batching for robust GPU utilization
 
-##📑 Citation
+## 📑 Citation
 If you use Omniformer in your work, please cite:
 
 Parmar, S. “Omniformer: Context-aware HyperTransformer for Gravitational-Wave Trigger Classification,” preprint, 2025.
 
-##🔗 Links & Resources
+## 🔗 Links & Resources
 GitHub: https://github.com/yourusername/omniformer
 
 PyPI: https://pypi.org/project/omniformer
 
 Documentation: https://yourusername.github.io/omniformer
 
-##📝 License
+## 📝 License
 Distributed under the MIT License. See LICENSE for details.
 """
