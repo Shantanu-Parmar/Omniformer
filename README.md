@@ -10,17 +10,16 @@ Install the latest release from PyPI:
 
 ```bash
 pip install omniformer
+
 Or install the development version from GitHub:
 
-bash
-Always show details
 
-Copy
 git clone https://github.com/yourusername/omniformer.git
 cd omniformer
 pip install -e .
+
 🛠️ Project Structure
-bash
+```bash
 Always show details
 
 Copy
