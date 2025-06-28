@@ -18,10 +18,8 @@ cd omniformer
 pip install -e .
 
 ```
-🛠️ Project Structure
-Always show details
-
-Copy
+##🛠️ Project Structure
+```
 omniformer/                  # Core package
 ├── __init__.py              # Expose Omniformer, Dataset, utils
 ├── model.py                 # Omniformer architecture + HyperNet
@@ -33,6 +31,7 @@ omniformer/                  # Core package
 README.md                    # This documentation
 setup.py                     # Packaging metadata
 requirements.txt             # Dependencies
+```
 
 ## 🎓 Concept & Architecture
 HyperNet-Enhanced Transformer
@@ -59,7 +58,7 @@ The training loop halves the batch size automatically on GPU OOM, ensuring stabl
 
 ##⚙️ Quickstart
 1. Training
-bash
+```bash
 Always show details
 
 Copy
@@ -73,33 +72,34 @@ omniformer-train \
 time,frequency,tstart,tend,fstart,fend,snr,q,amplitude,phase,Channel Name,Label
 
 --export: (Optional) path to save a TorchScript model for deployment.
-
+```
 2. Batch Inference
-bash
-Always show details
+```bash
 
 Copy
 omniformer-infer \
   --checkpoint path/to/checkpoint_epochX.pt \
   --input_csv path/to/unlabeled.csv \
   --output_csv predictions.csv
+```
 Outputs Predicted Probability and Predicted Label (“Signal”/“Noise”) in predictions.csv.
 
 3. Interactive Web UI
-bash
-Always show details
+```bash
 
 Copy
 streamlit run app.py
 Upload CSV via browser
+```
 
 View and download predictions
 
 Visualize class distribution and time-series confidence curves
 
 ##💻 API Usage Example
+```
 python
-Always show details
+
 
 Copy
 from omniformer import Omniformer, OmniformerCSVDataset
@@ -133,6 +133,8 @@ for x, ctx, y in loader:
     loss = criterion(logits, y)
     loss.backward()
     optimizer.step()
+```
+
 ##🔬 Research Highlights
 Dynamic per-sample weight generation for self-attention and FFN layers via HyperNets
 
