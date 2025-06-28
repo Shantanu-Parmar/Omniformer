@@ -35,7 +35,8 @@ omniformer/                  # Core package
 README.md                    # This documentation
 setup.py                     # Packaging metadata
 requirements.txt             # Dependencies
-🎓 Concept & Architecture
+
+## 🎓 Concept & Architecture
 HyperNet-Enhanced Transformer
 A small HyperNet ingests a context vector (one-hot “Channel Name”) and generates QKV and feed-forward weights for each Transformer layer on a per-sample basis.
 
@@ -58,7 +59,7 @@ OmniformerCSVDataset reads large CSVs in chunks, applies pre-filtering (remove b
 Adaptive Batch Size
 The training loop halves the batch size automatically on GPU OOM, ensuring stable training under memory constraints.
 
-⚙️ Quickstart
+##⚙️ Quickstart
 1. Training
 bash
 Always show details
@@ -98,7 +99,7 @@ View and download predictions
 
 Visualize class distribution and time-series confidence curves
 
-💻 API Usage Example
+##💻 API Usage Example
 python
 Always show details
 
@@ -134,7 +135,7 @@ for x, ctx, y in loader:
     loss = criterion(logits, y)
     loss.backward()
     optimizer.step()
-🔬 Research Highlights
+##🔬 Research Highlights
 Dynamic per-sample weight generation for self-attention and FFN layers via HyperNets
 
 Gated residual connections to stabilize deep Transformer training
@@ -143,23 +144,18 @@ Chunked streaming supports gigabyte-scale CSVs without full in-memory loading
 
 OOM-adaptive batching for robust GPU utilization
 
-📑 Citation
+##📑 Citation
 If you use Omniformer in your work, please cite:
 
 Parmar, S. “Omniformer: Context-aware HyperTransformer for Gravitational-Wave Trigger Classification,” preprint, 2025.
 
-🔗 Links & Resources
+##🔗 Links & Resources
 GitHub: https://github.com/yourusername/omniformer
 
 PyPI: https://pypi.org/project/omniformer
 
 Documentation: https://yourusername.github.io/omniformer
 
-📝 License
+##📝 License
 Distributed under the MIT License. See LICENSE for details.
 """
-with open("/mnt/data/README.md", "w") as f:
-f.write(readme_content)
-
-Inform user
-"/mnt/data/README.md generated
