@@ -1,0 +1,3 @@
+[console_scripts]
+omniformer-infer = omniformer.inference:main
+omniformer-train = omniformer.train:main

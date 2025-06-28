@@ -1,0 +1,9 @@
+torch>=1.13
+pandas
+numpy
+scikit-learn
+tqdm
+matplotlib
+streamlit
+fastapi
+uvicorn

@@ -1,0 +1,6 @@
+Metadata-Version: 2.1
+Name: omniformer
+Version: 0.1.0
+Summary: Omniformer: Context-aware Transformer for GW Signal Classification
+Author: Shantanu Parmar
+Requires-Python: >=3.8
