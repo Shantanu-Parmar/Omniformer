@@ -13,13 +13,12 @@ pip install omniformer
 
 Or install the development version from GitHub:
 
-
 git clone https://github.com/yourusername/omniformer.git
 cd omniformer
 pip install -e .
 
+```
 🛠️ Project Structure
-```bash
 Always show details
 
 Copy
