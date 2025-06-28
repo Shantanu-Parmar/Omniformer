@@ -1,5 +1,4 @@
-# Write README.md file
-readme_content = """# Omniformer
+# Omniformer
 
 **Omniformer** is a context-aware Transformer architecture enhanced with per-sample HyperNets, designed to classify gravitational-wave triggers (e.g., LIGO Omicron events) in noisy, multi-channel time-series data. Each Transformer layer’s weights are dynamically generated based on channel-specific context, yielding improved detection accuracy and robustness.
 
