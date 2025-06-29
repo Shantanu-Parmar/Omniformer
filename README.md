@@ -153,8 +153,6 @@ GitHub: https://github.com/yourusername/omniformer
 
 PyPI: https://pypi.org/project/omniformer
 
-Documentation: https://yourusername.github.io/omniformer
-
 ## 📝 License
 Distributed under the MIT License. See LICENSE for details.
 """
