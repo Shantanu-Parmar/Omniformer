@@ -173,11 +173,6 @@ for x, ctx, y in loader:
 ```
 ---
 
-## 📅 License
-
-MIT License. See [LICENSE](LICENSE) for details.
-
----
 
 ## 🔗 Resources
 
