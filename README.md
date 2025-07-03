@@ -1,25 +1,79 @@
 # Omniformer
 
-**Omniformer** is a context-aware Transformer architecture enhanced with per-sample HyperNets, designed to classify gravitational-wave triggers (e.g., LIGO Omicron events) in noisy, multi-channel time-series data. Each Transformer layer’s weights are dynamically generated based on channel-specific context, yielding improved detection accuracy and robustness.
+**Omniformer** is a context-aware Transformer architecture enhanced with per-sample **HyperNetworks**, built to classify gravitational-wave triggers (e.g., LIGO Omicron events) in noisy, multi-channel time-series data. Each Transformer's weights are dynamically generated based on channel-specific context, enabling improved detection accuracy and robustness.
 
 ---
 
-## 📦 Installation
+# 🧠 Meta-Optimized Omniformer
 
-Install the latest release from PyPI:
+## Hyperparameter Tuning for the OMICRON Pipeline (LIGO O3a)
 
-```bash
-pip install omniformer
+This project proposes a **meta-learning** approach to automate and optimize hyperparameter tuning for the [OMICRON pipeline](https://gw-openscience.org/omicron/), which detects non-Gaussian noise transients in gravitational-wave data.
 
-Or install the development version from GitHub:
+---
 
-git clone https://github.com/yourusername/omniformer.git
-cd omniformer
-pip install -e .
+## 🚀 Motivation
 
-```
-##🛠️ Project Structure
-```
+OMICRON relies on manually tuned parameters like frequency thresholds, SNR cutoffs, Q-ranges, and PSD lengths—making the process subjective and labor-intensive.
+We propose a **meta-learning-based automation** using deep learning to improve detection accuracy and reproducibility.
+
+---
+
+## 🔍 Key Contributions
+
+* 📁 Built a dataset from OMICRON runs with varying hyperparameters
+* 🧠 Trained ML classifiers (Random Forest, KarooGP) on transient outputs
+* ♻️ Developed **Omniformer**: a transformer model with dynamic weights from a HyperNet
+* ⚖️ Integrated a **Meta-Optimizer** for weight tuning through feedback
+* ♻️ Designed a 3-stage optimization pipeline:
+
+  1. Transformer-based modeling
+  2. HyperNet-based parameter control
+  3. Meta-optimization with feedback learning
+
+---
+
+## 🧪 Methodology
+
+1. **Data Generation**
+   Run OMICRON with varied hyperparameters to generate `.hdf5`, `.csv`, `.root` outputs.
+
+2. **Classification**
+   Label triggers using Random Forests or KarooGP.
+
+3. **Omniformer Training**
+   Train the context-aware Transformer on these classification results.
+
+4. **HyperNetwork Tuning**
+   Dynamically generate QKV and FFN weights from channel-specific context.
+
+5. **Meta-Learning Optimization**
+   A meta-optimizer refines model weights via feedback.
+
+---
+
+## 🤖 Why Meta-Learning?
+
+Meta-learning ("learning to learn") enables:
+
+* Generalization across runs and detectors
+* Better adaptation to non-Gaussian noise
+* Reduced reliance on expert-crafted hyperparameters
+
+---
+
+## 📊 Research Highlights
+
+* Per-sample dynamic weight generation for attention and feedforward layers
+* Gated residual connections for improved deep Transformer training
+* Supports streaming from large CSVs (100s of GB)
+* Automatic batch size reduction on GPU OOM
+
+---
+
+## 📄 Project Structure
+
+```txt
 omniformer/                  # Core package
 ├── __init__.py              # Expose Omniformer, Dataset, utils
 ├── model.py                 # Omniformer architecture + HyperNet
@@ -33,83 +87,68 @@ setup.py                     # Packaging metadata
 requirements.txt             # Dependencies
 ```
 
-## 🎓 Concept & Architecture
-HyperNet-Enhanced Transformer
-A small HyperNet ingests a context vector (one-hot “Channel Name”) and generates QKV and feed-forward weights for each Transformer layer on a per-sample basis.
+---
 
-CustomTransformerLayer
+## 🛠️ Installation
 
-Multi-Head Attention
+Install from PyPI:
 
-Feed-Forward Network (4× expansion)
-
-Gated Residual Connections: learnable scalar gates for skip connections
-
-Per-Sample Weight Injection from HyperNet outputs
-
-Learned Positional Encoding
-A trainable embedding added to the input projection to encode temporal order.
-
-Streaming CSV Dataset
-OmniformerCSVDataset reads large CSVs in chunks, applies pre-filtering (remove background samples near events), and constructs per-sample sequences on the fly.
-
-Adaptive Batch Size
-The training loop halves the batch size automatically on GPU OOM, ensuring stable training under memory constraints.
-
-##⚙️ Quickstart
-1. Training
 ```bash
-Always show details
+pip install omniformer
+```
 
-Copy
+Development version:
+
+```bash
+git clone https://github.com/yourusername/omniformer.git
+cd omniformer
+pip install -e .
+```
+
+---
+
+## 📚 Quickstart
+
+### 1. Training
+
+```bash
 omniformer-train \
   --csv path/to/labeled.csv \
   --batch_size 32 \
   --epochs 20 \
   --lr 1e-4 \
   --export model_scripted.pt
---csv: Input CSV with columns
-time,frequency,tstart,tend,fstart,fend,snr,q,amplitude,phase,Channel Name,Label
-
---export: (Optional) path to save a TorchScript model for deployment.
 ```
-2. Batch Inference
-```bash
 
-Copy
+Input CSV must contain: `time, frequency, tstart, tend, fstart, fend, snr, q, amplitude, phase, Channel Name, Label`
+
+### 2. Batch Inference
+
+```bash
 omniformer-infer \
-  --checkpoint path/to/checkpoint_epochX.pt \
+  --checkpoint path/to/checkpoint.pt \
   --input_csv path/to/unlabeled.csv \
   --output_csv predictions.csv
 ```
-Outputs Predicted Probability and Predicted Label (“Signal”/“Noise”) in predictions.csv.
 
-3. Interactive Web UI
+### 3. Web App
+
 ```bash
-
-Copy
 streamlit run app.py
-Upload CSV via browser
 ```
 
-View and download predictions
+---
 
-Visualize class distribution and time-series confidence curves
+## 📲 Python API Example
 
-##💻 API Usage Example
-```
-python
-
-
-Copy
+```python
 from omniformer import Omniformer, OmniformerCSVDataset
 from torch.utils.data import DataLoader
 import torch
-#Load dataset
+
 dataset = OmniformerCSVDataset("data/labeled.csv")
 loader = DataLoader(dataset, batch_size=32, shuffle=True)
 
-#Initialize model
 model = Omniformer(
     input_dim=10,
     context_dim=dataset.context_dim,
@@ -124,7 +163,6 @@ model = Omniformer(
 optimizer = torch.optim.Adam(model.parameters(), lr=1e-4)
 criterion = torch.nn.BCEWithLogitsLoss()
 
-#Training loop
 for x, ctx, y in loader:
     x, ctx, y = x.to("cuda"), ctx.to("cuda"), y.to("cuda")
     optimizer.zero_grad()
@@ -134,25 +172,31 @@ for x, ctx, y in loader:
     optimizer.step()
 ```
 
-## 🔬 Research Highlights
-Dynamic per-sample weight generation for self-attention and FFN layers via HyperNets
-
-Gated residual connections to stabilize deep Transformer training
-
-Chunked streaming supports gigabyte-scale CSVs without full in-memory loading
-
-OOM-adaptive batching for robust GPU utilization
+---
 
 ## 📑 Citation
-If you use Omniformer in your work, please cite:
 
-Parmar, S. “Omniformer: Context-aware HyperTransformer for Gravitational-Wave Trigger Classification,” preprint, 2025.
+> Parmar, S. *"Omniformer: Context-aware HyperTransformer for Gravitational-Wave Trigger Classification,"* preprint, 2025.
 
-## 🔗 Links & Resources
-GitHub: https://github.com/yourusername/omniformer
+---
 
-PyPI: https://pypi.org/project/omniformer
+## 📅 License
 
-## 📝 License
-Distributed under the MIT License. See LICENSE for details.
-"""
+MIT License. See [LICENSE](LICENSE) for details.
+
+---
+
+## 🔗 Resources
+
+* GitHub: [https://github.com/yourusername/omniformer](https://github.com/yourusername/omniformer)
+* PyPI: [https://pypi.org/project/omniformer](https://pypi.org/project/omniformer)
+
+---
+
+## 🙏 Acknowledgements
+
+* **LIGO Open Science Center (GWOSC)**
+* **OMICRON Developers**
+* **Gravitational Wave Research Community**
+* **Meta-Learning & Transformer Researchers**
+* **Academic Mentors and Collaborators**
