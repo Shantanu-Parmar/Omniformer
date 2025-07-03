@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="omniformer",
-    version="0.1.0",
+    version="0.1.1",
     description="Omniformer: Context-aware Transformer for GW Signal Classification",
     author="Shantanu Parmar",
     packages=find_packages(),
