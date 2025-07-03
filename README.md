@@ -188,7 +188,7 @@ MIT License. See [LICENSE](LICENSE) for details.
 
 ## 🔗 Resources
 
-* GitHub: [https://github.com/yourusername/omniformer](https://github.com/yourusername/omniformer)
+* GitHub: [https://github.com/Shantanu-Parmar/Omniformer/](https://github.com/Shantanu-Parmar/Omniformer/)
 * PyPI: [https://pypi.org/project/omniformer](https://pypi.org/project/omniformer)
 
 ---
