@@ -171,13 +171,6 @@ for x, ctx, y in loader:
     loss.backward()
     optimizer.step()
 ```
-
----
-
-## 📑 Citation
-
-> Parmar, S. *"Omniformer: Context-aware HyperTransformer for Gravitational-Wave Trigger Classification,"* preprint, 2025.
-
 ---
 
 ## 📅 License
