@@ -100,7 +100,7 @@ pip install omniformer
 Development version:
 
 ```bash
-git clone https://github.com/yourusername/omniformer.git
+git clone https://github.com/Shantanu-Parmar/Omniformer.git
 cd omniformer
 pip install -e .
 ```
