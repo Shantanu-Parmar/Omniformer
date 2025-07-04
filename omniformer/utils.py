@@ -31,6 +31,43 @@ def filter_events(df, window=5.0):
 
     return df[mask]
 
+class OmniformerParquetDataset(Dataset):
+    """
+    Dataset class for reading from Parquet files with the same structure as the CSV-based dataset.
+    """
+    def __init__(self, parquet_dir):
+        self.files = sorted(Path(parquet_dir).glob("*.parquet"))
+        self.df = pd.concat([pd.read_parquet(f) for f in self.files], ignore_index=True)
+
+        self.context_dim = CONTEXT_DIM
+        self.seq_len = SEQ_LEN
+        self.channel_index = CHANNEL_INDEX
+
+        # Optional filtering (e.g., temporal mask)
+        self.df = filter_events(self.df)
+        self.df = self.df.reset_index(drop=True)
+
+    def __len__(self):
+        return len(self.df)
+
+    def __getitem__(self, idx):
+        row = self.df.iloc[idx]
+
+        features = row[FEATURE_COLUMNS].astype(np.float32).values
+        features_seq = np.tile(features, (self.seq_len, 1))
+
+        channel_name = row['Channel Name']
+        context_vector = np.zeros(self.context_dim, dtype=np.float32)
+        index = self.channel_index.get(channel_name, 0)
+        context_vector[index % self.context_dim] = 1.0
+
+        label = np.float32(row['Label'])
+
+        return (
+            torch.tensor(features_seq, dtype=torch.float32),
+            torch.tensor(context_vector, dtype=torch.float32),
+            torch.tensor(label, dtype=torch.float32)
+        )
 
 class OmniformerCSVDataset(Dataset):
     """

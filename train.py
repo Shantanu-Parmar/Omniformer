@@ -1,13 +1,13 @@
-# train.py
-
 import argparse
 import os
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from torch.utils.data import DataLoader, Subset, random_split
-from omniformer import Omniformer, OmniformerCSVDataset
-torch.autograd.set_detect_anomaly(True)
+from torch.utils.data import DataLoader, random_split
+
+from omniformer import Omniformer
+from utils import OmniformerCSVDataset, OmniformerParquetDataset
+
 from omniformer.config import (
     DATA_CSV_PATH, CHECKPOINT_DIR,
     INPUT_DIM, CONTEXT_DIM,
@@ -16,11 +16,13 @@ from omniformer.config import (
     DEVICE
 )
 
+torch.autograd.set_detect_anomaly(True)
 os.makedirs(CHECKPOINT_DIR, exist_ok=True)
 
 def get_args():
     parser = argparse.ArgumentParser(description="Train Omniformer")
-    parser.add_argument("--csv", type=str, default=DATA_CSV_PATH)
+    parser.add_argument("--csv", type=str, default=DATA_CSV_PATH, help="Path to CSV file")
+    parser.add_argument("--parquet", type=str, help="Path to Parquet directory")
     parser.add_argument("--batch_size", type=int, default=DEFAULT_BATCH_SIZE)
     parser.add_argument("--epochs", type=int, default=DEFAULT_EPOCHS)
     parser.add_argument("--lr", type=float, default=DEFAULT_LR)
@@ -31,7 +33,13 @@ def main():
     args = get_args()
 
     # ---------------- DATA ----------------
-    full_dataset = OmniformerCSVDataset(args.csv)
+    if args.parquet:
+        print(f"[DATA] Using Parquet dataset from: {args.parquet}")
+        full_dataset = OmniformerParquetDataset(args.parquet)
+    else:
+        print(f"[DATA] Using CSV dataset from: {args.csv}")
+        full_dataset = OmniformerCSVDataset(args.csv)
+
     val_size = int(0.2 * len(full_dataset))
     train_size = len(full_dataset) - val_size
     train_dataset, val_dataset = random_split(full_dataset, [train_size, val_size])
