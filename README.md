@@ -71,8 +71,6 @@ Meta-learning ("learning to learn") enables:
 
 ---
 
----
-
 ## 🔄 Evolution & Research Journey
 
 ### 🧱 Initial Struggles
