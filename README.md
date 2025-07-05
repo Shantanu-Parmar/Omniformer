@@ -71,6 +71,52 @@ Meta-learning ("learning to learn") enables:
 
 ---
 
+---
+
+## 🔄 Evolution & Research Journey
+
+### 🧱 Initial Struggles
+
+We began our journey with:
+- LSTM and GRU-based classifiers for binary (signal vs. noise) classification.
+- Minimal context awareness—ignoring the unique characteristics of each auxiliary channel.
+- Inflexible models that failed to generalize across sensor types.
+
+### 🧪 Failed but Instructive Attempts
+
+- One-hot encoded channel embeddings with static Transformers failed to exploit channel semantics.
+- Sampling Omicron triggers by glitch labels caused heavy data imbalance and low robustness.
+- Direct use of meta-optimizers for backpropagation created instability and noise in gradients.
+
+### 🚀 Breakthroughs
+
+- Transitioned from binary to **multi-class classification**, using **channel names as labels**.
+- Dropped high-volume, low-information channels like:
+  - `H1:GWOSC-O3a_4KHZ_R1_Strain`
+  - `H1_LSC-REFL_A_RF9_Q_ERR_DQOUT`
+- Designed a **per-sample HyperNetwork** to generate weights for each Transformer's attention and feedforward layers.
+- Implemented a **streaming-safe pipeline** using Parquet files for training over 250+ GB of data on constrained memory.
+
+---
+
+## 🧠 Model Architecture
+
+### 🎛️ Components
+
+- **Input Embedding Layer**: Projects 10-dimensional Omicron feature vector to model dimension.
+- **Transformer Encoder**: Composed of multiple layers of:
+  - Multi-head self-attention
+  - Feedforward networks (FFN)
+  - Layer normalization and residual connections
+- **HyperNetwork Module**:
+  - Takes the `Channel Name` (as an integer index)
+  - Produces dynamic weights for QKV, FFN for each sample
+- **Classification Head**:
+  - For binary: 1 output neuron (sigmoid)
+  - For channel classification: softmax over N channels
+
+---
+
 ## 📄 Project Structure
 
 ```txt
