@@ -4,7 +4,7 @@
 
 ---
 
-# 🧠 Meta-Optimized Omniformer
+# Meta-Optimized Omniformer
 
 ## Hyperparameter Tuning for the OMICRON Pipeline (LIGO O3a)
 
@@ -12,20 +12,20 @@ This project proposes a **meta-learning** approach to automate and optimize hype
 
 ---
 
-## 🚀 Motivation
+## Motivation
 
 OMICRON relies on manually tuned parameters like frequency thresholds, SNR cutoffs, Q-ranges, and PSD lengths—making the process subjective and labor-intensive.
 We propose a **meta-learning-based automation** using deep learning to improve detection accuracy and reproducibility.
 
 ---
 
-## 🔍 Key Contributions
+## Key Contributions
 
-* 📁 Built a dataset from OMICRON runs with varying hyperparameters
-* 🧠 Trained ML classifiers (Random Forest, KarooGP) on transient outputs
-* ♻️ Developed **Omniformer**: a transformer model with dynamic weights from a HyperNet
-* ⚖️ Integrated a **Meta-Optimizer** for weight tuning through feedback
-* ♻️ Designed a 3-stage optimization pipeline:
+* Built a dataset from OMICRON runs with varying hyperparameters
+* Trained ML classifiers (Random Forest, KarooGP) on transient outputs
+* Developed **Omniformer**: a transformer model with dynamic weights from a HyperNet
+* Integrated a **Meta-Optimizer** for weight tuning through feedback
+* Designed a 3-stage optimization pipeline:
 
   1. Transformer-based modeling
   2. HyperNet-based parameter control
@@ -33,7 +33,7 @@ We propose a **meta-learning-based automation** using deep learning to improve d
 
 ---
 
-## 🧪 Methodology
+## Methodology
 
 1. **Data Generation**
    Run OMICRON with varied hyperparameters to generate `.hdf5`, `.csv`, `.root` outputs.
@@ -52,7 +52,7 @@ We propose a **meta-learning-based automation** using deep learning to improve d
 
 ---
 
-## 🤖 Why Meta-Learning?
+## Why Meta-Learning?
 
 Meta-learning ("learning to learn") enables:
 
@@ -62,7 +62,7 @@ Meta-learning ("learning to learn") enables:
 
 ---
 
-## 📊 Research Highlights
+## Research Highlights
 
 * Per-sample dynamic weight generation for attention and feedforward layers
 * Gated residual connections for improved deep Transformer training
@@ -71,22 +71,22 @@ Meta-learning ("learning to learn") enables:
 
 ---
 
-## 🔄 Evolution & Research Journey
+## Evolution & Research Journey
 
-### 🧱 Initial Struggles
+### Initial Struggles
 
 We began our journey with:
 - LSTM and GRU-based classifiers for binary (signal vs. noise) classification.
 - Minimal context awareness—ignoring the unique characteristics of each auxiliary channel.
 - Inflexible models that failed to generalize across sensor types.
 
-### 🧪 Failed but Instructive Attempts
+### Failed but Instructive Attempts
 
 - One-hot encoded channel embeddings with static Transformers failed to exploit channel semantics.
 - Sampling Omicron triggers by glitch labels caused heavy data imbalance and low robustness.
 - Direct use of meta-optimizers for backpropagation created instability and noise in gradients.
 
-### 🚀 Breakthroughs
+### Breakthroughs
 
 - Transitioned from binary to **multi-class classification**, using **channel names as labels**.
 - Dropped high-volume, low-information channels like:
@@ -97,9 +97,9 @@ We began our journey with:
 
 ---
 
-## 🧠 Model Architecture
+## Model Architecture
 
-### 🎛️ Components
+### Components
 
 - **Input Embedding Layer**: Projects 10-dimensional Omicron feature vector to model dimension.
 - **Transformer Encoder**: Composed of multiple layers of:
@@ -115,7 +115,7 @@ We began our journey with:
 
 ---
 
-## 📄 Project Structure
+## Project Structure
 
 ```txt
 omniformer/                  # Core package
@@ -133,7 +133,7 @@ requirements.txt             # Dependencies
 
 ---
 
-## 🛠️ Installation
+## Installation
 
 Install from PyPI:
 
@@ -151,7 +151,7 @@ pip install -e .
 
 ---
 
-## 📚 Quickstart
+## Quickstart
 
 ### 1. Training
 
@@ -183,7 +183,7 @@ streamlit run app.py
 
 ---
 
-## 📲 Python API Example
+## Python API Example
 
 ```python
 from omniformer import Omniformer, OmniformerCSVDataset
@@ -218,14 +218,14 @@ for x, ctx, y in loader:
 ---
 
 
-## 🔗 Resources
+## Resources
 
 * GitHub: [https://github.com/Shantanu-Parmar/Omniformer/](https://github.com/Shantanu-Parmar/Omniformer/)
 * PyPI: [https://pypi.org/project/omniformer](https://pypi.org/project/omniformer)
 
 ---
 
-## 🙏 Acknowledgements
+## Acknowledgements
 
 * **LIGO Open Science Center (GWOSC)**
 * **OMICRON Developers**
