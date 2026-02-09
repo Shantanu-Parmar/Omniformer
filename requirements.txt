@@ -7,3 +7,7 @@ matplotlib
 streamlit
 fastapi
 uvicorn
+seaborn
+huggingface_hub
+tensorboard
+omniformer
